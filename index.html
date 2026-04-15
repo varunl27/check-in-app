@@ -267,7 +267,6 @@
 
     .event-brand { min-width: 0; }
     .event-brand-row { display: flex; align-items: center; gap: 10px; }
-    .event-header-logo { max-height: 34px; max-width: 90px; object-fit: contain; display: none; border-radius: 4px; }
     .event-name-display {
       font-family: 'Poppins', sans-serif; font-size: 26px; font-weight: 700;
       line-height: 1; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
@@ -730,7 +729,6 @@
         </div>
         <button class="event-switcher-btn" id="switcher-btn">
           <div class="event-brand-row">
-            <img id="event-header-logo" class="event-header-logo" src="" alt="">
             <div class="event-name-display" id="event-name-display">Event <em>Check</em></div>
           </div>
           <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
@@ -1329,10 +1327,6 @@ function resetAccent() { applyAccent('#4aebb2'); }
 
 function applyEventDesign(evt) {
   applyAccent(evt.accentColor || '#4aebb2');
-  // Logo
-  const logo = $('event-header-logo');
-  if (evt.logoDataUrl) { logo.src = evt.logoDataUrl; logo.style.display = 'block'; }
-  else { logo.src = ''; logo.style.display = 'none'; }
   // Name
   const nameEl = $('event-name-display');
   nameEl.textContent = evt.name;
@@ -1941,7 +1935,6 @@ $('logo-input').addEventListener('change', e=>{
     const evt=currentEvent(); if(!evt) return;
     evt.logoDataUrl=ev.target.result;
     $('logo-preview-img').src=ev.target.result; $('logo-drop-zone').classList.add('has-logo');
-    $('event-header-logo').src=ev.target.result; $('event-header-logo').style.display='block';
   };
   reader.readAsDataURL(file); e.target.value='';
 });
@@ -1950,7 +1943,6 @@ $('logo-clear').addEventListener('click', e=>{
   e.stopPropagation();
   const evt=currentEvent(); if(!evt) return;
   evt.logoDataUrl=''; $('logo-preview-img').src=''; $('logo-drop-zone').classList.remove('has-logo');
-  $('event-header-logo').src=''; $('event-header-logo').style.display='none';
 });
 
 // ═══════════════════════════════════════════════════════════════
