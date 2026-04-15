@@ -438,7 +438,6 @@
       .event-topbar-actions .btn span { display: none; }
       .event-name-display   { font-size: 19px; }
       .back-btn             { width: 40px; height: 40px; }
-      .brand-chip           { padding: 7px 10px; }
       .brand-wordmark       { font-size: 9px; letter-spacing: 1.4px; }
 
       /* Stats */
@@ -517,27 +516,17 @@
       object-fit: contain;
       filter: brightness(0) invert(1);
     }
-    .brand-lockup {
+    .brand-copy {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
       min-width: 0;
     }
-    .brand-chip {
+    .brand-kicker {
       display: inline-flex;
       align-items: center;
       gap: 10px;
       width: fit-content;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
-    }
-    .brand-rule {
-      width: 1px;
-      height: 18px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.22), rgba(255,255,255,0.05));
     }
     .brand-wordmark {
       font-size: 10px;
@@ -546,27 +535,20 @@
       font-weight: 700;
       color: var(--text-sub);
       white-space: nowrap;
-    }
-    .brand-copy {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      min-width: 0;
+      transform: translateY(1px);
     }
     .dash-brand,
     .login-brand,
     .event-brand {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
     }
     .login-brand { align-items: center; }
     .login-brand .brand-copy { align-items: center; text-align: center; }
-    .login-brand .brand-chip { margin: 0 auto; }
     .login-brand .incisiv-brand-logo { height: 34px; }
     .dash-brand .incisiv-brand-logo { height: 30px; }
     .event-brand .incisiv-brand-logo { height: 26px; }
-    .event-brand .brand-chip { padding: 7px 11px; }
     .event-brand .brand-wordmark { font-size: 9px; letter-spacing: 1.5px; }
 
     body,
@@ -614,9 +596,8 @@
 <div id="view-login" class="view">
   <div class="login-wrap">
     <div class="login-brand">
-      <div class="brand-chip">
+      <div class="brand-kicker">
         <img class="incisiv-brand-logo" src="/incisiv-logo.png" alt="Incisiv">
-        <span class="brand-rule" aria-hidden="true"></span>
         <span class="brand-wordmark">Incisiv</span>
       </div>
       <div class="brand-copy">
@@ -685,9 +666,8 @@
 <div id="view-dashboard" class="view">
   <div class="dash-header">
     <div class="dash-brand">
-      <div class="brand-chip">
+      <div class="brand-kicker">
         <img class="incisiv-brand-logo" src="/incisiv-logo.png" alt="Incisiv">
-        <span class="brand-rule" aria-hidden="true"></span>
         <span class="brand-wordmark">Incisiv</span>
       </div>
       <div class="brand-copy">
@@ -738,9 +718,8 @@
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
       <div class="event-brand">
-        <div class="brand-chip">
+        <div class="brand-kicker">
           <img class="incisiv-brand-logo" src="/incisiv-logo.png" alt="Incisiv">
-          <span class="brand-rule" aria-hidden="true"></span>
           <span class="brand-wordmark">Incisiv</span>
         </div>
         <button class="event-switcher-btn" id="switcher-btn">
