@@ -499,7 +499,7 @@
     /* ── LOGIN ───────────────────────── */
     #view-login { display: none; }
     .login-wrap { width: 100%; max-width: 380px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 28px 20px; margin: 0 auto; }
-    .login-brand { text-align: center; margin-bottom: 36px; }
+    .login-brand { text-align: center; margin-bottom: 28px; }
     .login-brand h1 { font-family: 'Poppins', sans-serif; font-size: 40px; font-weight: 700; line-height: 1; }
     .login-brand h1 em { color: var(--accent); font-style: italic; font-weight: 400; }
     .login-brand p { font-size: 11px; color: var(--text-muted); margin-top: 6px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 600; }
@@ -507,9 +507,29 @@
     .login-box h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; margin-bottom: 4px; }
     .login-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
     .login-error { display: none; background: rgba(255,80,104,0.1); border: 1px solid rgba(255,80,104,0.2); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 13px; color: var(--danger); margin-bottom: 16px; }
+    .password-wrap { position: relative; }
     .form-group input[type="password"] { width: 100%; background: var(--card); border: 1.5px solid var(--border); color: var(--text); font-family: 'Poppins', sans-serif; font-size: 16px; padding: 14px 16px; border-radius: var(--radius-sm); outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+    .password-wrap input[type="password"],
+    .password-wrap input[type="text"] { padding-right: 86px; }
     .form-group input[type="password"]::placeholder { color: var(--text-muted); }
     .form-group input[type="password"]:focus { border-color: var(--border-lit); box-shadow: 0 0 0 3px rgba(var(--accent-rgb),0.07); }
+    .password-toggle {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      border: none;
+      background: rgba(255,255,255,0.04);
+      color: var(--text-sub);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s;
+    }
+    .password-toggle:hover { background: rgba(255,255,255,0.08); color: var(--text); }
     .forgot-link { background: none; border: none; color: var(--text-muted); font-family: 'Poppins', sans-serif; font-size: 13px; cursor: pointer; padding: 14px 0 0; display: block; width: 100%; text-align: center; transition: color 0.2s; }
     .forgot-link:hover { color: var(--accent); }
     .login-success { background: rgba(74,235,178,0.1); border: 1px solid rgba(74,235,178,0.2); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 13px; color: var(--accent); margin-bottom: 16px; }
@@ -547,8 +567,9 @@
     .event-brand {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
     }
+    .event-brand { gap: 14px; }
     .login-brand { align-items: center; }
     .login-brand .brand-copy { align-items: center; text-align: center; }
     .login-brand .incisiv-brand-logo { height: 34px; }
@@ -603,11 +624,9 @@
     <div class="login-brand">
       <div class="brand-kicker">
         <img class="incisiv-brand-logo" src="/incisiv-logo.png" alt="Incisiv">
-        <span class="brand-wordmark">Incisiv</span>
       </div>
       <div class="brand-copy">
         <h1>Event <em>Check</em></h1>
-        <p>Event Management</p>
       </div>
     </div>
     <div class="login-box">
@@ -624,7 +643,10 @@
           </div>
           <div class="form-group" style="margin-bottom:22px;">
             <label>Password</label>
-            <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password">
+            <div class="password-wrap">
+              <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password">
+              <button type="button" class="password-toggle" data-target="login-password" aria-label="Show password">Show</button>
+            </div>
           </div>
           <button type="submit" class="btn btn-accent" id="login-btn" style="width:100%;justify-content:center;padding:16px;font-size:15px;">Sign In</button>
         </form>
@@ -655,7 +677,10 @@
         <form id="reset-form" novalidate>
           <div class="form-group" style="margin-bottom:22px;">
             <label>New Password</label>
-            <input type="password" id="reset-password" placeholder="••••••••" autocomplete="new-password">
+            <div class="password-wrap">
+              <input type="password" id="reset-password" placeholder="••••••••" autocomplete="new-password">
+              <button type="button" class="password-toggle" data-target="reset-password" aria-label="Show password">Show</button>
+            </div>
           </div>
           <button type="submit" class="btn btn-accent" id="reset-btn" style="width:100%;justify-content:center;padding:16px;font-size:15px;">Update Password</button>
         </form>
@@ -673,11 +698,9 @@
     <div class="dash-brand">
       <div class="brand-kicker">
         <img class="incisiv-brand-logo" src="/incisiv-logo.png" alt="Incisiv">
-        <span class="brand-wordmark">Incisiv</span>
       </div>
       <div class="brand-copy">
         <h1>Event <em>Check</em></h1>
-        <p>Event Management</p>
       </div>
     </div>
     <div style="display:flex;gap:9px;align-items:center;">
@@ -725,8 +748,7 @@
       <div class="event-brand">
         <div class="brand-kicker">
           <img class="incisiv-brand-logo" src="/incisiv-logo.png" alt="Incisiv">
-          <span class="brand-wordmark">Incisiv</span>
-        </div>
+          </div>
         <button class="event-switcher-btn" id="switcher-btn">
           <div class="event-brand-row">
             <div class="event-name-display" id="event-name-display">Event <em>Check</em></div>
@@ -1175,6 +1197,17 @@ $('forgot-link').addEventListener('click', () => {
 
 $('back-to-login').addEventListener('click', () => {
   $('login-forgot').style.display = 'none'; $('login-main').style.display = 'block';
+});
+
+document.querySelectorAll('.password-toggle').forEach(button => {
+  button.addEventListener('click', () => {
+    const input = $(button.dataset.target);
+    if (!input) return;
+    const revealing = input.type === 'password';
+    input.type = revealing ? 'text' : 'password';
+    button.textContent = revealing ? 'Hide' : 'Show';
+    button.setAttribute('aria-label', revealing ? 'Hide password' : 'Show password');
+  });
 });
 
 $('forgot-form').addEventListener('submit', async e => {
