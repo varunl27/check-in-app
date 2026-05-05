@@ -1632,7 +1632,7 @@ function cardHTML(a) {
       <div class="attendee-name-row"><div class="attendee-name">${esc(a.name)}${wBadge}</div>${checkedBadge}</div>
       ${titleRow}${companyRow}
       ${timeRow}
-    </div><div>${btn}${a.checkedIn ? '<span class="checkin-btn-sub">Tap again to review uncheck</span>' : '<span class="checkin-btn-sub">Stays in place after check-in</span>'}</div></div>`;
+    </div><div>${btn}${a.checkedIn ? '<span class="checkin-btn-sub">Tap again to review uncheck</span>' : ''}</div></div>`;
 }
 
 // ═══════════════════════════════════════════════════════════════
