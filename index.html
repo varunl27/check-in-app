@@ -845,7 +845,10 @@
     </div>
     <div class="list-meta">
       <div id="list-meta-copy">Showing <strong>0</strong> guests.</div>
-      <div class="list-meta-shortcut">Press / to search</div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button id="sort-company-btn" class="list-meta-shortcut" style="cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text-sub);font-size:11px;padding:5px 10px;border-radius:999px;" title="Sort by company A-Z">Sort: Default</button>
+        <div class="list-meta-shortcut">Press / to search</div>
+      </div>
     </div>
     <div id="attendee-list"></div>
   </div>
@@ -1581,6 +1584,7 @@ function fmtTime(ts)    { if(!ts) return ''; return new Date(ts).toLocaleTimeStr
 function esc(s)         { return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
 let statFilter = 'all'; // 'all' | 'checkedin' | 'walkins'
+let sortByCompany = false;
 let searchDebounceTimer = null;
 
 function setStatFilter(f) {
@@ -1606,6 +1610,10 @@ function render() {
   // apply stat filter
   if (statFilter === 'checkedin') filtered = filtered.filter(a => a.checkedIn);
   else if (statFilter === 'walkins') filtered = filtered.filter(a => a.isWalkin);
+
+  if (sortByCompany) {
+    filtered = [...filtered].sort((a, b) => (a.company || '').toLowerCase().localeCompare((b.company || '').toLowerCase()));
+  }
 
   updateListMeta(all.length, filtered.length);
 
@@ -1787,6 +1795,13 @@ $('search-input').addEventListener('input', e=>{
   }, SEARCH_DEBOUNCE_MS);
 });
 $('search-clear').addEventListener('click', ()=>{ window.clearTimeout(searchDebounceTimer); $('search-input').value=''; query=''; $('search-clear').classList.remove('visible'); $('search-input').focus(); render(); });
+$('sort-company-btn').addEventListener('click', ()=>{
+  sortByCompany = !sortByCompany;
+  $('sort-company-btn').textContent = sortByCompany ? 'Sort: Company A-Z' : 'Sort: Default';
+  $('sort-company-btn').style.color = sortByCompany ? 'var(--accent)' : 'var(--text-sub)';
+  $('sort-company-btn').style.borderColor = sortByCompany ? 'var(--accent)' : 'var(--border)';
+  render();
+});
 
 document.addEventListener('keydown', e => {
   if (e.key === '/' && $('view-event').style.display !== 'none' && !['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) {
