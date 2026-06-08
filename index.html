@@ -455,6 +455,7 @@
       .search-wrap       { padding: 0 16px 10px; }
       .search-inner input { font-size: 15px; padding: 13px 16px 13px 48px; }
       .list-meta         { padding: 0 16px 10px; flex-direction: column; align-items: flex-start; }
+      #sort-company-btn  { padding: 12px 18px; font-size: 14px; }
       #attendee-list     { padding: 0 16px 130px; }
       #upload-section    { padding: 12px 16px; }
 
@@ -843,12 +844,15 @@
         </button>
       </div>
     </div>
+    <div style="padding: 0 28px 10px;">
+      <button id="sort-company-btn" style="display:flex;align-items:center;gap:8px;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text-sub);font-size:13px;font-weight:600;padding:10px 18px;border-radius:8px;width:100%;justify-content:center;transition:all 0.2s;" title="Sort by company A-Z">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="9" y2="18"/></svg>
+        Sort by Company A–Z
+      </button>
+    </div>
     <div class="list-meta">
       <div id="list-meta-copy">Showing <strong>0</strong> guests.</div>
-      <div style="display:flex;gap:8px;align-items:center;">
-        <button id="sort-company-btn" class="list-meta-shortcut" style="cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text-sub);font-size:11px;padding:5px 10px;border-radius:999px;" title="Sort by company A-Z">Sort: Default</button>
-        <div class="list-meta-shortcut">Press / to search</div>
-      </div>
+      <div class="list-meta-shortcut">Press / to search</div>
     </div>
     <div id="attendee-list"></div>
   </div>
@@ -1797,9 +1801,11 @@ $('search-input').addEventListener('input', e=>{
 $('search-clear').addEventListener('click', ()=>{ window.clearTimeout(searchDebounceTimer); $('search-input').value=''; query=''; $('search-clear').classList.remove('visible'); $('search-input').focus(); render(); });
 $('sort-company-btn').addEventListener('click', ()=>{
   sortByCompany = !sortByCompany;
-  $('sort-company-btn').textContent = sortByCompany ? 'Sort: Company A-Z' : 'Sort: Default';
-  $('sort-company-btn').style.color = sortByCompany ? 'var(--accent)' : 'var(--text-sub)';
-  $('sort-company-btn').style.borderColor = sortByCompany ? 'var(--accent)' : 'var(--border)';
+  const btn = $('sort-company-btn');
+  btn.style.color = sortByCompany ? 'var(--accent)' : 'var(--text-sub)';
+  btn.style.borderColor = sortByCompany ? 'var(--accent)' : 'var(--border)';
+  btn.style.background = sortByCompany ? 'rgba(var(--accent-rgb),0.08)' : 'var(--surface)';
+  btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="9" y2="18"/></svg> ${sortByCompany ? 'Sorted by Company A–Z' : 'Sort by Company A–Z'}`;
   render();
 });
 
