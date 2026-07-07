@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Event QR Code</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #07090f;
+      color: #eef0f5;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .card {
+      background: #111520;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 20px;
+      padding: 40px 32px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+    .logo {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 20px;
+    }
+    h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #eef0f5;
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 14px;
+      color: #8a92a8;
+      margin-bottom: 32px;
+    }
+    .qr-wrap {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 20px;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+    .qr-wrap img {
+      display: block;
+      width: 200px;
+      height: 200px;
+    }
+    .email-label {
+      font-size: 13px;
+      color: #8a92a8;
+      margin-bottom: 28px;
+      word-break: break-all;
+    }
+    .email-label strong {
+      color: #4aebb2;
+    }
+    .hint {
+      font-size: 13px;
+      color: #5a6070;
+      line-height: 1.6;
+    }
+    .error {
+      color: #ff5068;
+      font-size: 15px;
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img class="logo" src="/incisiv-logo.png" alt="Incisiv" onerror="this.style.display='none'">
+    <h1>Your Check-In QR Code</h1>
+    <p class="subtitle">Show this at the event entrance to check in</p>
+    <div id="content">
+      <div class="qr-wrap">
+        <img id="qr-img" src="" alt="QR Code">
+      </div>
+      <p class="email-label" id="email-label"></p>
+      <p class="hint">Keep this screen open when you arrive.<br>The host will scan your QR code.</p>
+    </div>
+    <p class="error" id="error" style="display:none;">No email found. Please use the link from your confirmation email.</p>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const email = params.get('email');
+    if (email) {
+      const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&bgcolor=ffffff&color=000000&data=' + encodeURIComponent(email);
+      document.getElementById('qr-img').src = qrUrl;
+      document.getElementById('email-label').innerHTML = '<strong>' + email + '</strong>';
+    } else {
+      document.getElementById('content').style.display = 'none';
+      document.getElementById('error').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
