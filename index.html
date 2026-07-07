@@ -2296,6 +2296,10 @@ function handleQRResult(data) {
   qrCooldown = true;
   const evt = currentEvent(); if (!evt) { closeQRScanner(); return; }
 
+  // Show raw QR data for debugging
+  $('qr-status').textContent = 'Read: ' + data;
+  $('qr-status').style.color = 'var(--warning)';
+
   // Try to extract email from QR data (handles plain email or JSON)
   let email = '';
   try {
