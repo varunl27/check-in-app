@@ -844,10 +844,14 @@
         </button>
       </div>
     </div>
-    <div style="padding: 0 28px 10px;">
-      <button id="sort-company-btn" style="display:flex;align-items:center;gap:8px;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text-sub);font-size:13px;font-weight:600;padding:10px 18px;border-radius:8px;width:100%;justify-content:center;transition:all 0.2s;" title="Sort by company A-Z">
+    <div style="padding: 0 28px 10px; display:flex; gap:8px;">
+      <button id="sort-name-btn" style="display:flex;align-items:center;gap:8px;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text-sub);font-size:13px;font-weight:600;padding:10px 18px;border-radius:8px;flex:1;justify-content:center;transition:all 0.2s;" title="Sort by first name A-Z">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="9" y2="18"/></svg>
-        Sort by Company A–Z
+        Sort by Name
+      </button>
+      <button id="sort-company-btn" style="display:flex;align-items:center;gap:8px;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text-sub);font-size:13px;font-weight:600;padding:10px 18px;border-radius:8px;flex:1;justify-content:center;transition:all 0.2s;" title="Sort by company A-Z">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="9" y2="18"/></svg>
+        Sort by Company
       </button>
     </div>
     <div class="list-meta">
@@ -857,10 +861,16 @@
     <div id="attendee-list"></div>
   </div>
 
-  <button class="fab" id="fab-add" style="display:none;">
-    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-    Add Walk-in Contact
-  </button>
+  <div id="fab-group" style="display:none;position:fixed;bottom:32px;right:28px;z-index:90;display:none;flex-direction:column;align-items:flex-end;gap:10px;">
+    <button class="fab" id="fab-scan" style="background:var(--surface);color:var(--accent);border:1.5px solid var(--accent);box-shadow:0 6px 28px rgba(var(--accent-rgb),0.18),0 2px 8px rgba(0,0,0,0.4);">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="5" height="5" rx="1"/><rect x="16" y="3" width="5" height="5" rx="1"/><rect x="3" y="16" width="5" height="5" rx="1"/><line x1="16" y1="16" x2="21" y2="16"/><line x1="16" y1="16" x2="16" y2="21"/><line x1="21" y1="21" x2="21" y2="21"/></svg>
+      Scan QR Code
+    </button>
+    <button class="fab" id="fab-add">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Add Walk-in Contact
+    </button>
+  </div>
 </div>
 
 <!-- Event Switcher Popover -->
@@ -941,6 +951,25 @@
       </div>
     </form>
   </div>
+</div>
+
+<!-- QR Scanner -->
+<div id="qr-overlay" style="display:none;position:fixed;inset:0;z-index:200;background:#000;flex-direction:column;align-items:center;justify-content:center;">
+  <div style="position:relative;width:100%;max-width:420px;aspect-ratio:1;">
+    <video id="qr-video" style="width:100%;height:100%;object-fit:cover;" playsinline muted></video>
+    <canvas id="qr-canvas" style="display:none;"></canvas>
+    <!-- scanning frame -->
+    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
+      <div style="width:220px;height:220px;position:relative;">
+        <div style="position:absolute;top:0;left:0;width:40px;height:40px;border-top:3px solid var(--accent);border-left:3px solid var(--accent);border-radius:4px 0 0 0;"></div>
+        <div style="position:absolute;top:0;right:0;width:40px;height:40px;border-top:3px solid var(--accent);border-right:3px solid var(--accent);border-radius:0 4px 0 0;"></div>
+        <div style="position:absolute;bottom:0;left:0;width:40px;height:40px;border-bottom:3px solid var(--accent);border-left:3px solid var(--accent);border-radius:0 0 0 4px;"></div>
+        <div style="position:absolute;bottom:0;right:0;width:40px;height:40px;border-bottom:3px solid var(--accent);border-right:3px solid var(--accent);border-radius:0 0 4px 0;"></div>
+      </div>
+    </div>
+  </div>
+  <p id="qr-status" style="color:var(--text-sub);font-size:14px;margin-top:20px;font-family:'Poppins',sans-serif;">Point camera at attendee's QR code</p>
+  <button id="qr-close" style="margin-top:20px;background:var(--surface);color:var(--text);border:1px solid var(--border);padding:12px 28px;border-radius:100px;font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;cursor:pointer;">Cancel</button>
 </div>
 
 <!-- Design Panel -->
@@ -1025,6 +1054,7 @@
 <input type="file" id="reupload-input" accept=".csv,.txt" style="display:none;">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 <script>
 // ═══════════════════════════════════════════════════════════════
 // CONSTANTS & STATE
@@ -1183,8 +1213,17 @@ async function checkAuth() {
   if (session) {
     currentUser = session.user;
     loadEvents();
-    renderDashboard();
-    loadEventsFromDB();
+    const lastId = localStorage.getItem('ec_last_event');
+    if (lastId && events.find(e => e.id === lastId)) {
+      openEvent(lastId);
+    } else {
+      renderDashboard();
+    }
+    loadEventsFromDB().then(() => {
+      const lid = localStorage.getItem('ec_last_event');
+      const onDashboard = $('view-dashboard').style.display !== 'none';
+      if (lid && onDashboard && events.find(e => e.id === lid)) openEvent(lid);
+    });
     subscribeRealtime();
   }
   else {
@@ -1451,6 +1490,7 @@ $('event-grid').addEventListener('click', e => {
 // ═══════════════════════════════════════════════════════════════
 function openEvent(id) {
   currentEventId = id;
+  try { localStorage.setItem('ec_last_event', id); } catch(_) {}
   const evt = currentEvent();
   if (!evt) return;
 
@@ -1476,6 +1516,7 @@ function openEvent(id) {
 
 $('back-btn').addEventListener('click', () => {
   currentEventId = null;
+  try { localStorage.removeItem('ec_last_event'); } catch(_) {}
   closeAllModals();
   renderDashboard();
 });
@@ -1556,7 +1597,7 @@ $('event-form').addEventListener('submit', e => {
 function showListView() {
   $('upload-section').style.display = 'none';
   $('list-section').style.display   = 'block';
-  $('fab-add').style.display        = 'flex';
+  $('fab-group').style.display      = 'flex';
   render();
   focusSearchSoon();
 }
@@ -1564,7 +1605,7 @@ function showListView() {
 function showUploadView() {
   $('upload-section').style.display = 'flex';
   $('list-section').style.display   = 'none';
-  $('fab-add').style.display        = 'none';
+  $('fab-group').style.display      = 'none';
   updateOpsCopy('Waiting for your guest list', 'Upload a CSV or add contacts one by one before the desk opens.');
 }
 
@@ -1589,6 +1630,7 @@ function esc(s)         { return String(s??'').replace(/&/g,'&amp;').replace(/</
 
 let statFilter = 'all'; // 'all' | 'checkedin' | 'walkins'
 let sortByCompany = false;
+let sortByName = false;
 let searchDebounceTimer = null;
 
 function setStatFilter(f) {
@@ -1615,7 +1657,9 @@ function render() {
   if (statFilter === 'checkedin') filtered = filtered.filter(a => a.checkedIn);
   else if (statFilter === 'walkins') filtered = filtered.filter(a => a.isWalkin);
 
-  if (sortByCompany) {
+  if (sortByName) {
+    filtered = [...filtered].sort((a, b) => (a.firstName || a.name || '').toLowerCase().localeCompare((b.firstName || b.name || '').toLowerCase()));
+  } else if (sortByCompany) {
     filtered = [...filtered].sort((a, b) => (a.company || '').toLowerCase().localeCompare((b.company || '').toLowerCase()));
   }
 
@@ -1799,13 +1843,24 @@ $('search-input').addEventListener('input', e=>{
   }, SEARCH_DEBOUNCE_MS);
 });
 $('search-clear').addEventListener('click', ()=>{ window.clearTimeout(searchDebounceTimer); $('search-input').value=''; query=''; $('search-clear').classList.remove('visible'); $('search-input').focus(); render(); });
-$('sort-company-btn').addEventListener('click', ()=>{
+function applySortStyle(btn, active, label) {
+  btn.style.color = active ? 'var(--accent)' : 'var(--text-sub)';
+  btn.style.borderColor = active ? 'var(--accent)' : 'var(--border)';
+  btn.style.background = active ? 'rgba(var(--accent-rgb),0.08)' : 'var(--surface)';
+  btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="9" y2="18"/></svg> ${active ? 'Sorted by ' : 'Sort by '}${label}`;
+}
+
+$('sort-name-btn').addEventListener('click', () => {
+  sortByName = !sortByName;
+  if (sortByName) { sortByCompany = false; applySortStyle($('sort-company-btn'), false, 'Company'); }
+  applySortStyle($('sort-name-btn'), sortByName, 'Name A–Z');
+  render();
+});
+
+$('sort-company-btn').addEventListener('click', () => {
   sortByCompany = !sortByCompany;
-  const btn = $('sort-company-btn');
-  btn.style.color = sortByCompany ? 'var(--accent)' : 'var(--text-sub)';
-  btn.style.borderColor = sortByCompany ? 'var(--accent)' : 'var(--border)';
-  btn.style.background = sortByCompany ? 'rgba(var(--accent-rgb),0.08)' : 'var(--surface)';
-  btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="9" y2="18"/></svg> ${sortByCompany ? 'Sorted by Company A–Z' : 'Sort by Company A–Z'}`;
+  if (sortByCompany) { sortByName = false; applySortStyle($('sort-name-btn'), false, 'Name A–Z'); }
+  applySortStyle($('sort-company-btn'), sortByCompany, 'Company A–Z');
   render();
 });
 
@@ -2118,8 +2173,17 @@ if (typeof window.supabase !== 'undefined') {
       if (event === 'SIGNED_IN') {
         currentUser = session.user;
         loadEvents();
-        renderDashboard();
-        loadEventsFromDB();
+        const lastId = localStorage.getItem('ec_last_event');
+        if (lastId && events.find(e => e.id === lastId)) {
+          openEvent(lastId);
+        } else {
+          renderDashboard();
+        }
+        loadEventsFromDB().then(() => {
+          const lid = localStorage.getItem('ec_last_event');
+          const onDashboard = $('view-dashboard').style.display !== 'none';
+      if (lid && onDashboard && events.find(e => e.id === lid)) openEvent(lid);
+        });
         subscribeRealtime();
         updateSyncUI(navigator.onLine ? 'ready' : 'offline');
       }
@@ -2142,6 +2206,17 @@ if (typeof window.supabase !== 'undefined') {
 buildSwatches();
 updateSyncUI(navigator.onLine ? 'ready' : 'offline');
 
+// Restore last event when tab regains focus
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && currentUser) {
+    const lastId = localStorage.getItem('ec_last_event');
+    const onDashboard = $('view-dashboard').style.display !== 'none';
+    if (lastId && onDashboard && events.find(e => e.id === lastId)) {
+      openEvent(lastId);
+    }
+  }
+});
+
 if (sb) {
   checkAuth(); // shows login screen or dashboard based on session
 } else {
@@ -2150,6 +2225,103 @@ if (sb) {
   loadEventsFromDB();
   subscribeRealtime();
 }
+
+// ═══════════════════════════════════════════════════════════════
+// QR SCANNER
+// ═══════════════════════════════════════════════════════════════
+let qrStream = null;
+let qrAnimFrame = null;
+let qrCooldown = false;
+
+function openQRScanner() {
+  const overlay = $('qr-overlay');
+  overlay.style.display = 'flex';
+  $('qr-status').textContent = 'Point camera at attendee\'s QR code';
+  $('qr-status').style.color = 'var(--text-sub)';
+  startCamera();
+}
+
+function closeQRScanner() {
+  $('qr-overlay').style.display = 'none';
+  if (qrStream) { qrStream.getTracks().forEach(t => t.stop()); qrStream = null; }
+  if (qrAnimFrame) { cancelAnimationFrame(qrAnimFrame); qrAnimFrame = null; }
+}
+
+async function startCamera() {
+  try {
+    qrStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+    const video = $('qr-video');
+    video.srcObject = qrStream;
+    video.play();
+    video.addEventListener('loadedmetadata', scanLoop, { once: true });
+  } catch(e) {
+    $('qr-status').textContent = 'Camera access denied. Please allow camera permissions.';
+    $('qr-status').style.color = 'var(--danger)';
+  }
+}
+
+function scanLoop() {
+  const video = $('qr-video');
+  const canvas = $('qr-canvas');
+  if (!qrStream || video.readyState !== video.HAVE_ENOUGH_DATA) {
+    qrAnimFrame = requestAnimationFrame(scanLoop); return;
+  }
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  const code = jsQR(imageData.data, imageData.width, imageData.height);
+  if (code && !qrCooldown) {
+    handleQRResult(code.data);
+  } else {
+    qrAnimFrame = requestAnimationFrame(scanLoop);
+  }
+}
+
+function handleQRResult(data) {
+  qrCooldown = true;
+  const evt = currentEvent(); if (!evt) { closeQRScanner(); return; }
+
+  // Try to extract email from QR data (handles plain email or JSON)
+  let email = '';
+  try {
+    const parsed = JSON.parse(data);
+    email = (parsed.email || '').trim().toLowerCase();
+  } catch(_) {
+    // Check if data is a plain email or contains an email
+    const emailMatch = data.match(/[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}/);
+    email = emailMatch ? emailMatch[0].toLowerCase() : '';
+  }
+
+  const attendee = (evt.attendees || []).find(a => (a.email || '').trim().toLowerCase() === email);
+
+  if (!attendee) {
+    $('qr-status').textContent = 'Guest not found in this event\'s list.';
+    $('qr-status').style.color = 'var(--danger)';
+    setTimeout(() => { qrCooldown = false; qrAnimFrame = requestAnimationFrame(scanLoop); }, 2000);
+    return;
+  }
+
+  if (attendee.checkedIn) {
+    $('qr-status').textContent = `${attendee.name} is already checked in.`;
+    $('qr-status').style.color = 'var(--warning)';
+    setTimeout(() => { qrCooldown = false; qrAnimFrame = requestAnimationFrame(scanLoop); }, 2000);
+    return;
+  }
+
+  // Check in
+  attendee.checkedIn = true;
+  attendee.checkedInAt = Date.now();
+  updateStats();
+  render();
+  dbSave(currentEventId);
+  closeQRScanner();
+  toast(`${attendee.name} checked in!`, 'success');
+}
+
+$('fab-scan').addEventListener('click', openQRScanner);
+$('qr-close').addEventListener('click', closeQRScanner);
 </script>
 </body>
 </html>
