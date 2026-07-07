@@ -2236,6 +2236,7 @@ let qrAnimFrame = null;
 let qrCooldown = false;
 
 function openQRScanner() {
+  qrCooldown = false;
   const overlay = $('qr-overlay');
   overlay.style.display = 'flex';
   $('qr-status').textContent = 'Point camera at attendee\'s QR code';
@@ -2244,6 +2245,7 @@ function openQRScanner() {
 }
 
 function closeQRScanner() {
+  qrCooldown = false;
   $('qr-overlay').style.display = 'none';
   if (qrStream) { qrStream.getTracks().forEach(t => t.stop()); qrStream = null; }
   if (qrAnimFrame) { cancelAnimationFrame(qrAnimFrame); qrAnimFrame = null; }
